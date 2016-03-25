@@ -1,0 +1,1 @@
+coq_makefile Prerequistes.v Terms.v Decorations.v Axioms.v Derived_CoProjections.v Derived_CoProducts.v Proofs.v -o Makefile 
