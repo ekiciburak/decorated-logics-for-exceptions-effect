@@ -42,10 +42,10 @@ Module Make(Import M: Prerequistes.T).
 
  Fixpoint translate X Y (t: termpl X Y): (term X Y) :=
   match t with
-    | pl_tpure X Y f      => tpure f
-    | pl_comp _ _ _ a b   => (translate _ _ a) o (translate _ _ b) 
-    | throw Y e           => (@empty Y) o (tag e)
-    | try_catch X Y e a b => downcast(copair (@id Y) ((@translate _ _ b) o untag e) o coproj1 o (@translate _ _ a))
+    | @pl_tpure X Y f      => tpure f
+    | @pl_comp _ _ _ a b   => (translate _ _ a) o (translate _ _ b) 
+    | @throw Y e           => (@empty Y) o (tag e)
+    | @try_catch X Y e a b => downcast(copair (@id Y) ((@translate _ _ b) o untag e) o coproj1 o (@translate _ _ a))
   end.
 
 
