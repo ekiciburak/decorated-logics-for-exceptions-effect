@@ -4,7 +4,7 @@
 (*              (see file LICENSE for more details)                       *)
 (*                                                                        *)
 (*       Copyright 2015: Jean-Guillaume Dumas, Dominique Duval            *)
-(*			 Burak Ekici, Damien Pous.                        *)
+(*			 Burak Ekici, Damien Pous.                                        *)
 (**************************************************************************)
 
 Require Import Relations Morphisms.
@@ -31,7 +31,7 @@ Module Make(Import M: Prerequistes.T).
  | idt: forall X Y (f: term X Y), id o f == f
  | assoc: forall X Y Z T (f: term X Y) (g: term Y Z) (h: term Z T), f o (g o h) == (f o g) o h
  | wtos: forall  X Y (f g: term X Y), PPG f -> PPG g -> f ~ g -> f == g
- | s_lcopair_eq: forall X X' Y (f1: term Y X) (f2: term Y X'), PPG f1 -> (copair f1 f2) o coproj2 == f2
+ | s_lcopair_eq: forall X X' Y (f1: term Y X) (f2: term Y X'), PPG f1 -> (copair f1 f2) o in2 == f2
  | eeffect: forall X Y (f g: term Y X), (f o (@empty X) == g o (@empty X)) -> f ~ g -> f == g (* effect measure - Dumas et al.'12 *)
  | elocal_global: forall X (f g: term X Empty_set), (forall t: EName, f o tag t ~ g o tag t) -> f == g (* dual to observation *)
  | tcomp: forall X Y Z (f: Z -> Y) (g: Y -> X), tpure (compose g f) == tpure g o tpure f
@@ -41,12 +41,12 @@ Module Make(Import M: Prerequistes.T).
  | wrepl : forall A B C, Proper (@idem C B ==> @weak B A ==> @weak C A) comp
  | pwsubs : forall A B C, Proper (@weak C B ==> @pure_id B A ==> @weak C A) comp
  | stow: forall  X Y (f g: term X Y), f == g -> f ~ g
- | w_lcopair_eq: forall X X' Y (f1: term Y X) (f2: term Y X'), PPG f1 -> (copair f1 f2) o coproj1 ~ f1  
+ | w_lcopair_eq: forall X X' Y (f1: term Y X) (f2: term Y X'), PPG f1 -> (copair f1 f2) o in1 ~ f1  
  | w_empty: forall X (f: term X Empty_set), f ~ (@empty X)
  | w_downcast: forall X Y (f: term X Y), f ~ (@downcast X Y f)	
  | eax1: forall t: EName, untag t o tag t ~ (@id (Val t))
  | eax2: forall t1 t2: EName, t1 <> t2 -> untag t2 o tag t1 ~ (@empty (Val t2)) o tag t1
- | lcopair_ueq: forall  X X' Y (f g: term Y (X+X')), (f o coproj1 ~ g o coproj1) -> (f o coproj2 ~ g o coproj2) -> f ~ g
+ | lcopair_ueq: forall  X X' Y (f g: term Y (X+X')), (f o in1 ~ g o in1) -> (f o in2 ~ g o in2) -> f ~ g
    where "x == y" := (strong x y)
    and "x ~ y" := (weak x y).
 

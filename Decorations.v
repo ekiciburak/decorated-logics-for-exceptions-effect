@@ -39,7 +39,7 @@ Module Make(Import M: Prerequistes.T).
 		                 (apply is_ppg_ctc)
                         ].
 
- Lemma is_coproj1 X Y: is epure (@coproj1 X Y).
+ Lemma is_coproj1 X Y: is epure (@in1 X Y).
  Proof. edecorate. Qed.
 
  Class EPURE {A B: Type} (f: term A B) := isp : is epure f.
