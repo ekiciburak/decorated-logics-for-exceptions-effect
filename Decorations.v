@@ -6,7 +6,6 @@
 (*       Copyright 2015: Jean-Guillaume Dumas, Dominique Duval            *)
 (*			 Burak Ekici, Damien Pous.                        *)
 (**************************************************************************)
-
 Require Import Relations Morphisms.
 Require Import Program.
 Require Prerequistes Terms.
@@ -21,13 +20,26 @@ Module Make(Import M: Prerequistes.T).
  | is_tpure: forall X Y (f: X -> Y), is epure (@tpure X Y f)
  | is_comp: forall k X Y Z (f: term X Y) (g: term Y Z), is k f -> is k g -> is k (f o g)
  | is_copair: forall k X Y Z (f: term Z X) (g: term Z Y), is ppg f -> is k f -> is k g -> is k (copair f g)  (* FIXED *)
- | is_downcast: forall X Y (f: term X Y), is ppg (@downcast X Y f)	
+ | is_downcast: forall X Y (f: term X Y), is ppg (@downcast X Y f)
  | is_tag: forall t, is ppg (tag t)	
  | is_untag: forall t, is ctc (untag t)
  | is_epure_ppg: forall X Y (f: term X Y), is epure f -> is ppg f 
  | is_ppg_ctc: forall X Y  (f: term X Y), is ppg f -> is ctc f.
 
  Hint Constructors is.
+
+Definition dmax (k1 k2: kind): kind :=
+  match k1, k2 with
+    | epure, epure => epure
+    | epure, ppg  => ppg
+    | epure, ctc  => ctc
+    | ppg, epure  => ppg
+    | ctc, epure => ctc
+    | ppg, ppg   => ppg
+    | ppg, ctc   => ctc
+    | ctc, ppg   => ctc
+    | ctc, ctc   => ctc
+  end.
 
  Ltac edecorate :=  solve[
                           repeat (apply is_comp || apply is_copair)
@@ -38,6 +50,16 @@ Module Make(Import M: Prerequistes.T).
 			    || 
 		                 (apply is_ppg_ctc)
                         ].
+
+Lemma _is_comp: forall k1 k2 X Y Z (f: term X Y) (g: term Y Z), is k1 f -> is k2 g -> is (dmax k1 k2) (f o g).
+Proof. intros.
+       case_eq k1; case_eq k2; cbn; intros; subst; edecorate.
+Qed.
+
+Lemma _is_copair: forall k1 k2 X Y Z (f: term Z X) (g: term Z Y), is ppg f -> is k1 f -> is k2 g -> is (dmax k1 k2) (copair f g).
+Proof. intros.
+       case_eq k1; case_eq k2; cbn; intros; subst; edecorate.
+Qed.
 
  Lemma is_coproj1 X Y: is epure (@in1 X Y).
  Proof. edecorate. Qed.

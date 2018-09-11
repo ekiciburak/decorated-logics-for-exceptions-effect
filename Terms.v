@@ -6,10 +6,9 @@
 (*       Copyright 2015: Jean-Guillaume Dumas, Dominique Duval            *)
 (*			 Burak Ekici, Damien Pous.                        *)
 (**************************************************************************)
-
 Require Import Relations Morphisms.
 Require Import Program.
-Require Prerequistes.
+From Top Require Prerequistes.
 
 Module Make(Import M: Prerequistes.T).
 

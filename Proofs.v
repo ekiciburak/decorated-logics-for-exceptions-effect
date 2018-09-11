@@ -6,10 +6,9 @@
 (*       Copyright 2015: Jean-Guillaume Dumas, Dominique Duval            *)
 (*			 Burak Ekici, Damien Pous.                                        *)
 (**************************************************************************)
-
 Require Import Relations Morphisms.
 Require Import Program.
-Require Prerequistes Terms Decorations Axioms Derived_CoProjections Derived_CoProducts.
+From Top Require Prerequistes Terms Decorations Axioms Derived_CoProjections Derived_CoProducts.
 Set Implicit Arguments.
 
 Module Make(Import M: Prerequistes.T).
